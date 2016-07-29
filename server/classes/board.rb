@@ -48,6 +48,8 @@ module GoLServer
       # Check each tracked cell and its state to calculate the next state for each position
       @tracked_cells.each do |coords|
         tracked_state = @tracked_cells[coords]
+
+        # I need t implement the tracked cells
       end
     end
   end

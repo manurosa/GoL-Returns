@@ -1,5 +1,7 @@
 module GoLServer
   class Cell
+    attr_reader :type
+
     def initialize(type)
       @type = type || 1
       @inhabitant = false
