@@ -1,4 +1,4 @@
-
+Cell = require_relative('cell')
 module GoLServer
   class Board
     def initialize
