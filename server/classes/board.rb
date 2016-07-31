@@ -49,8 +49,46 @@ module GoLServer
       @tracked_cells.each do |coords|
         tracked_state = @tracked_cells[coords]
 
-        # I need t implement the tracked cells
+        if tracked_state.has_bacteria?
+          # The cell has a bacteria living in it
+          current_alive.push(tracked_state.pos.x + ',' + tracked_state.pos.y)
+          # Check if it stays alive
+          bacteria = get_cell(tracked_state.pos.x, tracked_state.pos.y).inhabitant
+          if tracked_state.sorrounding[bacteria.id]
+            if tracked_state.sorrounding[bacteria.id].quantity < bacteria.overpopulation && tracked_state.sorrounding[bacteria.id].quantity > bacteria.solitude
+              # It doesn't die, we store it as a survivor
+              bacterias[tracked_state.pos.x + ',' + tracked_state.pos.y] = bacteria
+              next
+            end
+          end
+        end
+
+        # Empty cell, check if reproduction applies
+        reproducers = []
+        tracked_state.sorrounding.each do |sur|
+          if tracked_state.sorrounding[sur].quantity === tracked_state.sorrounding[sur].type.fertility
+            reproducers.push(tracked_state.sorrounding[sur].type)
+          end
+          if reproducers.length === 1
+            bacterias[tracked_state.pos.x + ',' + tracked_state.pos.y] = reproducers[0]
+          end
+          if reproducers.length > 1
+            bacterias[tracked_state.pos.x + ',' + tracked_state.pos.y] = new Bacteria()
+          end
+        end
       end
+
+      # TODO: update board
+    end
+
+    # Gets the cell from the active instance board.
+    def get_cell(x, y)
+      get_cell_from_board(@board, x, y)
+    end
+
+    def get_cell_from_board(board, x, y)
+      return false if !board[x] || !board[x][y]
+      board[x][y]
     end
   end
 end
