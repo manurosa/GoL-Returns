@@ -1,6 +1,9 @@
+require_relative 'cell'
 
 module GoLServer
   class Board
+    attr_reader :board
+
     def initialize
       @board = []
       @size = 15
@@ -12,7 +15,7 @@ module GoLServer
       (0..@size).each do |x|
         @board[x] = [] unless @board[x]
         (0..@size).each do |y|
-          @board[x][y] = Cell.new(get_random_type)
+          @board[x][y] = GoLServer::Cell.new(get_random_type)
         end
       end
     end
@@ -26,7 +29,7 @@ module GoLServer
     end
 
     # FIXME: This probably shouldn't be here
-    def get_random_type(entropy)
+    def get_random_type(entropy = 0)
       entropy ||= 21
       dice = rand(0..100)
 
