@@ -93,4 +93,41 @@ class Board
     return false if !board[x] || !board[x][y]
     board[x][y]
   end
+
+  def is_habitated?(x, y)
+    cell = get_cell(x, y)
+    return false unless cell
+
+    true
+  end
+
+  def populate_cell(x, y, bacteria)
+    cell = get_cell(x, y)
+    if cell && cell.inhabit(bacteria)
+      @total_bacteria += 1
+      track_cell(x, y, bacteria)
+    end
+  end
+
+  def track_cell(x, y, bacteria)
+    mark_cell(x, y)
+    @tracked_cells[x + ',' + y].state = 'bacteria'
+    [[-1, -1], [0, -1], [1, -1], [-1, 0], [1, 0], [-1, 1], [0, 1], [1, 1]].each do |coord|
+      sorrounded_cell(x + coord[0], y + coord[1], bacteria)
+    end
+  end
+
+  def sorrounded_cell(x, y, bacteria)
+    if mark_cell(x, y)
+      pos = x + ',' + y
+      unless tracked_cells[pos].sorrounding[bacteria.id]
+        tracked_cells[pos].sorrounding[bacteria.id] = { type: bacteria, quantity: 0 }
+      end
+      tracked_cells[pos].sorrounding[bacteria.id].quantity += 1
+    end
+  end
+
+  def mark_cell
+    # TODO: Implement me
+  end
 end
