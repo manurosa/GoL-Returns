@@ -14,7 +14,7 @@ class User
   end
 
   def guest_num_generator
-    @@guest_num_generator += 1
+    @@guest_num_overall += 1
   end
 
   def default_proto
