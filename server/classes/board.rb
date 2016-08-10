@@ -128,6 +128,25 @@ class Board
   end
 
   def mark_cell
-    # TODO: Implement me
+    if x > -1 && y > -1 && x < this.size - 1 && y < this.size - 1
+      pos = x + ',' + y
+      unless tracked_cells[pos]
+        tracked_cells[pos] = CellTracker.new(x, y, get_cell(x, y).type)
+      end
+      return true
+    end
+
+    false
+  end
+
+  def show
+    opt = ''
+    (0..@size).each do |x|
+      (0..@size).each do |y|
+        opt += '' + @board[y][x]
+      end
+      opt += '|\n'
+    end
+    puts opt
   end
 end

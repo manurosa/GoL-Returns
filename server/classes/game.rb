@@ -41,24 +41,29 @@ class Game
   end
 
   def next
-    if @status != 2
-      return
+    return if @status != 2
 
     @board.next_state
     @generation += 1
   end
 
   def start_automation
-    # TODO: Implement me
+    @play_interval = Thread.new do
+      loop do
+        sleep 0.05
+
+        self.next
+        report_status
+      end
+    end
   end
 
   def pause
-    # TODO: Implement me
+    Thread.kill(@play_interval)
   end
 
   def run_generation
-    if status != 2
-      return
+    return if status != 2
 
     @board.board.each do |cell|
       board.evaluate_generation(cel[x], cell[y])

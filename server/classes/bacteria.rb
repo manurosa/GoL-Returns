@@ -6,6 +6,7 @@ class Bacteria
     @overpopulation = genetics.overpopulation
     @colour = genetics.colour
     @ancestors
+    @id = '' + this.ownerColor + this.owner.id + genetics.fertility + genetics.solitude + genetics.overpopulation + genetics.color
   end
 
   def owner_colour
