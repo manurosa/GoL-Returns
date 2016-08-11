@@ -81,7 +81,45 @@ class Board
       end
     end
 
-    # TODO: update board
+    update_board_state(current_alive, bacterias)
+  end
+
+  def update_board_state(current_alive, next_state_living)
+    # Kill bacterias on coordinates where they aren't going to survive
+    living_coords = next_state_living.keys
+    current_alive.each do |coords|
+      next unless living_coords.index coords
+      hash[x, y] = coords.split(',')
+      @board[x][y].kill
+      @total_bacteria -= 1
+      tracked_cells[x + ',' + y].delete
+    end
+
+    next_state_living.each do |coords|
+      next unless current_alive.index coords
+      hash[x, y] = coords.split(',')
+      populate_cell(x, y, next_state_living[coords])
+    end
+  end
+
+  def best_genetics(reproducers)
+    proto =  {genetics: {fertility: 10, solitude: -1, overpopulation: 10, color: 0}};
+    reproducers.each do |rep|
+      proto.fertility = rep.fertility if rep.fertility < proto.fertility
+      
+      proto.overpopulation = rep.overpopulation if rep.overpopulation > proto.overpopulation
+
+      proto.solitude = rep.solitude if rep.solitude < proto.solitude
+
+      proto.color += ('0x' + rep.color, 16).to_i / 2
+    end
+
+    if proto.solitude >= proto.fertility
+      proto.solitude = proto.fertility - 1
+    end
+    
+    proto.color = proto.color.to_s
+    return proto
   end
 
   # Gets the cell from the active instance board.
