@@ -103,23 +103,21 @@ class Board
   end
 
   def best_genetics(reproducers)
-    proto =  {genetics: {fertility: 10, solitude: -1, overpopulation: 10, color: 0}};
+    proto = { genetics: { fertility: 10, solitude: -1, overpopulation: 10, color: 0 } }
     reproducers.each do |rep|
       proto.fertility = rep.fertility if rep.fertility < proto.fertility
-      
+
       proto.overpopulation = rep.overpopulation if rep.overpopulation > proto.overpopulation
 
       proto.solitude = rep.solitude if rep.solitude < proto.solitude
 
-      proto.color += ('0x' + rep.color, 16).to_i / 2
+      proto.color += ('0x' + rep.color).to_i / 2
     end
 
-    if proto.solitude >= proto.fertility
-      proto.solitude = proto.fertility - 1
-    end
-    
+    proto.solitude = proto.fertility - 1 if proto.solitude >= proto.fertility
+
     proto.color = proto.color.to_s
-    return proto
+    proto
   end
 
   # Gets the cell from the active instance board.

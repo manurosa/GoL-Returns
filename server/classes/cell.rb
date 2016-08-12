@@ -1,5 +1,6 @@
 class Cell
   attr_reader :type
+  attr_reader :inhabitant
 
   def initialize(type)
     @type = type || 1
