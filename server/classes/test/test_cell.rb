@@ -30,8 +30,46 @@ class CellTest < Test::Unit::TestCase
     cell = Cell.new(1)
     bacteria = Bacteria.new('owner', 'genetics')
 
-    puts cell.inhabit(bacteria)
+    cell.inhabit(bacteria)
 
     assert cell.inhabitant.is_a? Bacteria
+  end
+
+  def test_cell_is_inhabitated
+    cell = Cell.new(1)
+    bacteria = Bacteria.new('owner', 'genetics')
+
+    cell.inhabit(bacteria)
+
+    assert cell.is_inhabitated?
+  end
+
+  def test_cell_not_habitated_conversion_to_string
+    cell = Cell.new(1)
+
+    assert_equal '|_', cell.to_string 
+  end
+
+  def test_cell_rock_conversion_to_string
+    cell = Cell.new(2)
+
+    assert_equal '|R', cell.to_string
+  end
+
+  def test_cell_fertile_conversion_to_string
+    cell = Cell.new(1)
+
+    cell.make_type(4)
+
+    assert_equal '|F', cell.to_string
+  end
+
+  def test_habitated_cell_conversion_to_string
+    cell = Cell.new(1)
+    bacteria = Bacteria.new('owner', 'genetics')
+
+    cell.inhabit(bacteria)
+
+    assert_equal bacteria.to_s, cell.to_string
   end
 end
