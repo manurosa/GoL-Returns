@@ -2,8 +2,19 @@ require 'test/unit'
 require 'mocha/test_unit'
 require_relative '../cell'
 require_relative '../bacteria'
+require_relative '../user'
 
 class CellTest < Test::Unit::TestCase
+  def set_bacteria_params
+    @owner = User.new('socket')
+    @genetics = {
+      fertility: 3,
+      solitude: 1,
+      overpopulation: 4,
+      colour: '#000'
+    }
+  end
+
   def test_cell_instance_without_type
     cell = Cell.new(1)
 
@@ -28,7 +39,8 @@ class CellTest < Test::Unit::TestCase
 
   def test_inhabit_cell_with_bacteria
     cell = Cell.new(1)
-    bacteria = Bacteria.new('owner', 'genetics')
+    set_bacteria_params
+    bacteria = Bacteria.new(@owner, @genetics)
 
     cell.inhabit(bacteria)
 
@@ -37,7 +49,8 @@ class CellTest < Test::Unit::TestCase
 
   def test_cell_is_inhabitated
     cell = Cell.new(1)
-    bacteria = Bacteria.new('owner', 'genetics')
+    set_bacteria_params
+    bacteria = Bacteria.new(@owner, @genetics)
 
     cell.inhabit(bacteria)
 
@@ -47,7 +60,7 @@ class CellTest < Test::Unit::TestCase
   def test_cell_not_habitated_conversion_to_string
     cell = Cell.new(1)
 
-    assert_equal '|_', cell.to_string 
+    assert_equal '|_', cell.to_string
   end
 
   def test_cell_rock_conversion_to_string
@@ -66,7 +79,8 @@ class CellTest < Test::Unit::TestCase
 
   def test_habitated_cell_conversion_to_string
     cell = Cell.new(1)
-    bacteria = Bacteria.new('owner', 'genetics')
+    set_bacteria_params
+    bacteria = Bacteria.new(@owner, @genetics)
 
     cell.inhabit(bacteria)
 

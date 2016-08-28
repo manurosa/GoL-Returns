@@ -1,12 +1,12 @@
 class Bacteria
-  def initialize(owner, _genetics)
+  def initialize(owner, genetics)
     @owner = owner
-    # @fertility = genetics.fertility
-    # @solitude = genetics.solitude
-    # @overpopulation = genetics.overpopulation
-    # @colour = genetics.colour
+    @fertility = genetics[:fertility]
+    @solitude = genetics[:solitude]
+    @overpopulation = genetics[:overpopulation]
+    @colour = genetics[:colour]
     @ancestors
-    # @id = '' + owner.color + owner.id + genetics.fertility + genetics.solitude + genetics.overpopulation + genetics.color
+    @id = '' + owner.id.to_s + genetics[:fertility].to_s + genetics[:solitude].to_s + genetics[:overpopulation].to_s + genetics[:colour].to_s
   end
 
   def owner_colour
