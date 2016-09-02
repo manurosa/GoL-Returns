@@ -16,19 +16,19 @@ class Bacteria
     end
 
     possible = (5 * colour + 1) % 37 + 1
-    possible = (5 * color + 1) % 37 + 30 if possible < 31
+    possible = (5 * colour + 1) % 37 + 30 if possible < 31
 
     colour = ''
     if possible > 37
-      possible -= Math.floor((possible - 37) / 2)
+      possible -= ((possible - 37) / 2).floor
       possible = 30 if possible < 30
       colour = '1;'
     end
-    colour += possible
+    colour += possible.to_s
     colour
   end
 
   def to_string
-    '|\x1B[' + this.ownerColor + 'mB\x1B[0m'
+    '|\x1B[' + owner_colour + 'mB\x1B[0m'
   end
 end
